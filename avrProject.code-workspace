@@ -1,0 +1,562 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {},
+    "tasks": {
+        "version": "2.0.0",
+        "options": {
+            "env": {
+                "BUILD_DIR": "build",
+                "BUILD_NAME": "application",
+                "COMPILE_C_AS_CPP": "0",
+                "COMPILER_DEBUG": "0",
+                "COMPILER_OPT": "-g -Og", // -Os
+                "COMPILER_PATH": "",
+                "COMPILER_STD_C": "gnu17",
+                "COMPILER_STD_CPP": "c++17",
+                "FUNSAPE_PATH": "",
+                "LIBRARY_PATH": "",
+                "MCU_DEVICE_CORE_FLOAT_ABI": "",
+                "MCU_DEVICE_CORE_FPU": "",
+                "MCU_DEVICE_NAME": "atmega328p",
+                "_PROGRAMMER_BAUDRATE": "57600",
+                "PROGRAMMER_CONFIG_FILE": "${execPath}/../toolchains/avrdude/avrdude.conf",
+                "_PROGRAMMER_PORT": "COM3",
+                "PROGRAMMER_TYPE": "arduino", // arduino, ST_LINK_JTAG, ST_LINK_SWD
+                "USER_DEFINES_ASM": "",
+                "USER_DEFINES_C": "",
+                "USER_DEFINES_CPP": "",
+                "USER_FLAGS_ASM": "",
+                "USER_FLAGS_C": "-Wno-switch",
+                "USER_FLAGS_CPP": "-Wno-switch",
+                "USER_LIBS": ""
+            }
+        },
+        "tasks": [
+            {
+                "label": "Select COM port",
+                "detail": "Select COM port",
+                "command": "./.vscode/listPorts.sh",
+                "args": [],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU assemble
+            {
+                "label": "AVR assemble",
+                "detail": "AVR - Assemble project",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "assemble"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean
+            {
+                "label": "AVR clean",
+                "detail": "AVR - Delete build files",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "clean"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU compile
+            {
+                "label": "AVR compile",
+                "detail": "AVR - Compile project",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "compile"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU program
+            {
+                "label": "AVR program",
+                "detail": "AVR - Write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "program"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU flashErase
+            {
+                "label": "AVR flashErase",
+                "detail": "AVR - Erase device flash memory",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "flashErase"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU assemble/clean/program
+            {
+                "label": "AVR assemble/clean/program",
+                "detail": "AVR - Assemble project, delete build files and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "assembleCleanProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU assemble/program
+            {
+                "label": "AVR assemble/program",
+                "detail": "AVR - Assemble project and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "assembleProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean/assemble
+            {
+                "label": "AVR clean/assemble",
+                "detail": "AVR - Reassemble project",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "cleanAssemble"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean/assemble/clean/program
+            {
+                "label": "AVR clean/assemble/clean/program",
+                "detail": "AVR - Reassemble project, delete build files and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "cleanAssembleCleanProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean/assemble/program
+            {
+                "label": "AVR clean/assemble/program",
+                "detail": "AVR - Reassemble project and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "cleanAssembleProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean/compile
+            {
+                "label": "AVR clean/compile",
+                "detail": "AVR - Recompile project",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "cleanCompile"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean/compile/clean/program
+            {
+                "label": "AVR clean/compile/clean/program",
+                "detail": "AVR - Recompile project, delete build files and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "cleanCompileCleanProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU clean/compile/program
+            {
+                "label": "AVR clean/compile/program",
+                "detail": "AVR - Recompile project and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "cleanCompileProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU compile/clean/program
+            {
+                "label": "AVR compile/clean/program",
+                "detail": "AVR - Compile project, delete build files and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "compileCleanProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU compile/program
+            {
+                "label": "AVR compile/program",
+                "detail": "AVR - Compile project and write into device",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "compileProgram"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            },
+            // MCU do Nothing
+            {
+                "label": "AVR Do Nothing",
+                "detail": "AVR - Do nothing. Use to evaluate makefile variables",
+                "command": "make",
+                "args": [
+                    {
+                        "quoting": "weak",
+                        "value": "doNothing"
+                    }
+                ],
+                "runOptions": {
+                    "instanceLimit": 1,
+                    "reevaluateOnRerun": true
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "type": "shell",
+                "group": "build",
+                "presentation": {
+                    "clear": true,
+                    "close": false,
+                    "echo": true,
+                    "focus": true,
+                    "panel": "shared",
+                    "reveal": "always",
+                    "revealProblems": "onProblem",
+                    "showReuseMessage": true
+                }
+            }
+        ]
+    }
+}
