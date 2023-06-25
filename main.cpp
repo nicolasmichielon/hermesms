@@ -19,6 +19,8 @@ void sendATCommand(const char *command);
 void ADCInit();
 uint16_t ADCRead(uint8_t channel);
 void SendSMS(const char *SMSnumber);
+void Beep();
+void SentBeep();
 
 // Variaveis globais
 uint8_t mode = 0;
@@ -58,6 +60,9 @@ int main()
     // Espera o SIM900 inicializar
     delayMs(2000);
 
+    setBit(DDRB, PB0);
+    clrBit(PORTB, PB0);
+
     while(1) {
         // Modo 0: Digite o numero de telefone
         if(mode == 0) {
@@ -70,7 +75,7 @@ int main()
                 break;
             case 69:
                 // Usa o numero default (numero do lucas)
-                delayMs(20);
+                Beep();
                 display.cursorHome();
                 display.clearScreen();
                 strcpy(cellNumber, "+5548999309880");
@@ -80,11 +85,12 @@ int main()
                 break;
             case 61:
                 // Mantem o numero atual
+                Beep();
                 mode = 1;
                 break;
             case 45:
+                Beep();
                 // Remove o último caractere
-                delayMs(20);
                 tamanho = strlen(cellNumber);
                 if(tamanho > 0) {
                     cellNumber[tamanho - 1] = '\0';
@@ -94,8 +100,8 @@ int main()
                 }
                 break;
             default:
+                Beep();
                 // Adiciona o digito pressionado ao número de telefone
-                delayMs(20);
                 char keyPressedAsString[3];
                 sprintf(keyPressedAsString, "%c", (char)keyPressed);
                 strncat(cellNumber, keyPressedAsString, sizeof(cellNumber) - strlen(cellNumber) - 1);
@@ -113,7 +119,7 @@ int main()
             // Le a luminosidade pelo ADC
             luminosidade = ADCRead(ANALOG_CHANNEL);
             // Calcula a porcentagem de luminosidade
-            uint16_t porcentagem = ((1023 - luminosidade) / 1023.0) * 100.0;
+            porcentagem = ((1023 - luminosidade) / 1023.0) * 100.0;
             // Mostra a luminosidade na tela
             char buffer[32];
             sprintf(buffer, "Luminosidade=%d%%", porcentagem);
@@ -126,6 +132,26 @@ int main()
             mode = 0;
         }
     }
+}
+
+void Beep()
+{
+    // Beep
+    setBit(PORTB, PB0);
+    delayMs(100);
+    clrBit(PORTB, PB0);
+}
+
+void SentBeep()
+{
+    // Sent beep
+    setBit(PORTB, PB0);
+    delayMs(200);
+    clrBit(PORTB, PB0);
+    delayMs(100);
+    setBit(PORTB, PB0);
+    delayMs(100);
+    clrBit(PORTB, PB0);
 }
 
 void USARTInit(unsigned int ubrr)
@@ -223,4 +249,5 @@ void SendSMS(const char *SMSnumber)
 
     // Manda Ctrl+Z para indicar o fim da mensagem
     USARTTransmit(0x1A);
+    SentBeep();
 }
