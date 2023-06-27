@@ -47,9 +47,9 @@ int main()
     keypad.init(10);
 
     // Variaveis locais
-    char cellNumber[20] = "";
+    char cellNumber[15] = "";
     uint8_t cursorPosition = 0;
-    uint16_t tamanho;
+    uint16_t tamanho = 0;
 
     // Inicializa o ADC
     ADCInit();
@@ -60,8 +60,8 @@ int main()
     // Espera o SIM900 inicializar
     delayMs(2000);
 
-    setBit(DDRB, PB0);
-    clrBit(PORTB, PB0);
+    setBit(DDRC, PC5);
+    clrBit(PORTC, PC5);
 
     while(1) {
         // Modo 0: Digite o numero de telefone
@@ -91,23 +91,28 @@ int main()
             case 45:
                 Beep();
                 // Remove o último caractere
-                tamanho = strlen(cellNumber);
-                if(tamanho > 0) {
-                    cellNumber[tamanho - 1] = '\0';
-                    cursorPosition--;
+                if(tamanho > 0 && tamanho <= 16) {
+                    if(cursorPosition > 0) {
+                        cursorPosition--;
+                    }
                     display.cursorGoTo(0, cursorPosition);
                     printf("%c", ' ');
+                    cellNumber[tamanho - 1] = '\0';
+                    tamanho--;
                 }
                 break;
             default:
                 Beep();
                 // Adiciona o digito pressionado ao número de telefone
-                char keyPressedAsString[3];
-                sprintf(keyPressedAsString, "%c", (char)keyPressed);
-                strncat(cellNumber, keyPressedAsString, sizeof(cellNumber) - strlen(cellNumber) - 1);
-                display.cursorGoTo(0, cursorPosition);
-                printf("%c", (char)keyPressed);
-                cursorPosition++;
+                if(tamanho < 16) {
+                    char keyPressedAsString[3];
+                    sprintf(keyPressedAsString, "%c", (char)keyPressed);
+                    strncat(cellNumber, keyPressedAsString, sizeof(cellNumber) - strlen(cellNumber) - 1);
+                    display.cursorGoTo(0, cursorPosition);
+                    printf("%c", (char)keyPressed);
+                    cursorPosition++;
+                    tamanho++;
+                }
                 break;
             }
         }
@@ -130,6 +135,9 @@ int main()
             display.cursorHome();
             display.clearScreen();
             mode = 0;
+            tamanho = 0;
+            // Clear cellNumber variable
+            strcpy(cellNumber, "");
         }
     }
 }
@@ -137,21 +145,21 @@ int main()
 void Beep()
 {
     // Beep
-    setBit(PORTB, PB0);
+    setBit(PORTC, PC5);
     delayMs(100);
-    clrBit(PORTB, PB0);
+    clrBit(PORTC, PC5);
 }
 
 void SentBeep()
 {
     // Sent beep
-    setBit(PORTB, PB0);
+    setBit(PORTC, PC5);
     delayMs(200);
-    clrBit(PORTB, PB0);
+    clrBit(PORTC, PC5);
     delayMs(100);
-    setBit(PORTB, PB0);
+    setBit(PORTC, PC5);
     delayMs(100);
-    clrBit(PORTB, PB0);
+    clrBit(PORTC, PC5);
 }
 
 void USARTInit(unsigned int ubrr)
