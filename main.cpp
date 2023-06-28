@@ -8,6 +8,7 @@
 
 #define firstLine       PB2
 #define firstCol       PC1
+#define DEFAULT_NUM "DEFAULT NUMBER HERE"
 #define BAUD_RATE 9600
 #define ANALOG_CHANNEL 0 // Canal ADC usado para leitura
 
@@ -78,7 +79,7 @@ int main()
                 Beep();
                 display.cursorHome();
                 display.clearScreen();
-                strcpy(cellNumber, "+5548999309880");
+                strcpy(cellNumber, DEFAULT_NUM);
                 printf("%s", cellNumber);
                 delayMs(2000);
                 mode = 1;
